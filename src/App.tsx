@@ -1,25 +1,12 @@
-import { createClient } from "@sanity/client";
-import imageUrlBuilder from "@sanity/image-url";
 import { Loader2, ShoppingBag } from "lucide-react";
 import { useEffect, useState } from "react";
-
-// Configuration Sanity
-export const client = createClient({
-  projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
-  dataset: "production",
-  useCdn: true,
-  apiVersion: "2024-02-01",
-});
-
-const builder = imageUrlBuilder(client);
-// biome-ignore lint/suspicious/noExplicitAny: Nécessaire pour les schémas d'image Sanity
-export const urlFor = (source: any) => builder.image(source);
+import { client, urlFor } from "./lib/sanity";
 
 interface Product {
   _id: string;
   title: string;
   price: number;
-  // biome-ignore lint/suspicious/noExplicitAny: Format d'image source Sanity
+  // biome-ignore lint/suspicious/noExplicitAny: Sanity image schema is dynamic
   image: any;
 }
 
@@ -34,20 +21,23 @@ export default function App() {
         setProducts(data);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((error) => {
+        console.error("Sanity fetch error:", error);
+        setLoading(false);
+      });
   }, []);
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        <Loader2 className="animate-spin" />
+      <div className="flex h-screen items-center justify-center bg-white">
+        <Loader2 className="animate-spin text-teal-600" size={40} />
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
-      <header className="flex justify-between items-center p-6 border-b">
+      <header className="flex justify-between items-center p-6 border-b sticky top-0 bg-white/80 backdrop-blur-md z-10">
         <h1 className="text-2xl font-black uppercase tracking-tighter">
           Base Engine
         </h1>
@@ -60,32 +50,40 @@ export default function App() {
         </button>
       </header>
 
-      <main className="max-w-7xl mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-10">
-        {products.map((p) => (
-          <article key={p._id} className="group">
-            <div className="overflow-hidden rounded-2xl mb-4 bg-slate-100 aspect-square">
-              {p.image && (
-                <img
-                  src={urlFor(p.image).url()}
-                  alt={p.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-              )}
-            </div>
-            <h2 className="text-xl font-bold uppercase">{p.title}</h2>
-            <p className="text-lg font-mono mb-4">{p.price} €</p>
-            <button
-              type="button"
-              className="snipcart-add-item w-full py-3 bg-teal-600 text-white font-bold uppercase tracking-widest hover:bg-teal-700 transition-colors"
-              data-item-id={p._id}
-              data-item-name={p.title}
-              data-item-price={p.price}
-              data-item-url="/"
-            >
-              Ajouter au panier
-            </button>
-          </article>
-        ))}
+      <main className="max-w-7xl mx-auto p-8">
+        {products.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-slate-400 italic">Aucun produit disponible.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {products.map((p) => (
+              <article key={p._id} className="group">
+                <div className="overflow-hidden rounded-2xl mb-4 bg-slate-100 aspect-square">
+                  {p.image && (
+                    <img
+                      src={urlFor(p.image).url()}
+                      alt={p.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  )}
+                </div>
+                <h2 className="text-xl font-bold uppercase">{p.title}</h2>
+                <p className="text-lg font-mono mb-4">{p.price} €</p>
+                <button
+                  type="button"
+                  className="snipcart-add-item w-full py-3 bg-teal-600 text-white font-bold uppercase tracking-widest hover:bg-teal-700 transition-colors rounded-lg"
+                  data-item-id={p._id}
+                  data-item-name={p.title}
+                  data-item-price={p.price}
+                  data-item-url="/"
+                >
+                  Ajouter au panier
+                </button>
+              </article>
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );

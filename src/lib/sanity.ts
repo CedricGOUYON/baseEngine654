@@ -12,6 +12,6 @@ const builder = imageUrlBuilder(client);
 
 /**
  * Génère l'URL de l'image à partir de la source Sanity.
- * biome-ignore lint/suspicious/noExplicitAny: Les schémas d'image Sanity sont dynamiques
  */
+// biome-ignore lint/suspicious/noExplicitAny: Sanity image schemas are dynamic
 export const urlFor = (source: any) => builder.image(source);
