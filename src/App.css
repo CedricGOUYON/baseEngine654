@@ -1,42 +1,98 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+:root {
+  --brand-teal: #0d9488;
+  --brand-dark: #0f172a;
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --selection-bg: #ccfbf1;
+  --selection-text: #134e4a;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  background-color: #ffffff;
+  color: var(--brand-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@keyframes logo-spin {
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--selection-text);
+}
+
+/* Animations de chargement et transitions */
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(10px);
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+article {
+  animation: fadeIn 0.6s ease-out forwards;
 }
 
-.card {
-  padding: 2em;
+/* Style des cartes produits */
+.group img {
+  transition: transform 0.7s ease-in-out;
 }
 
-.read-the-docs {
-  color: #888;
+.group:hover img {
+  transform: scale(1.05);
+}
+
+/* Effet de flou sur le header */
+header {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(241, 245, 249, 0.5);
+}
+
+/* Style des boutons Snipcart */
+.snipcart-add-item {
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.1);
+}
+
+.snipcart-add-item:active {
+  transform: scale(0.95);
+}
+
+.snipcart-add-item:hover {
+  background-color: #0f766e;
+  box-shadow: 0 20px 25px -5px rgba(13, 148, 136, 0.2);
+}
+
+.snipcart-checkout {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.snipcart-checkout:hover {
+  box-shadow: 0 25px 30px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Customisation de la barre de défilement */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f8fafc;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #e2e8f0;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #cbd5e1;
+}
+
+/* Amélioration de l'affichage des titres */
+h1,
+h2 {
+  letter-spacing: -0.025em;
 }
