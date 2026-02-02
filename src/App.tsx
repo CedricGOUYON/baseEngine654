@@ -47,10 +47,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
-      {/* Correction de l'erreur 2741 : ajout de la propriété portal obligatoire */}
-      **
       <VisualEditing portal={true} />
-      **
+
       <header className="flex justify-between items-center p-6 border-b sticky top-0 bg-white/80 backdrop-blur-md z-10">
         <h1 className="text-2xl font-black uppercase tracking-tighter">
           {settings?.siteTitle || "Base Engine"}
@@ -63,6 +61,7 @@ export default function App() {
           <span className="snipcart-items-count font-bold">0</span>
         </button>
       </header>
+
       <main className="max-w-7xl mx-auto p-8">
         <div className="mb-12 text-center">
           <h2 className="text-4xl font-extrabold mb-2">
