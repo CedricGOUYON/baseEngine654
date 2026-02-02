@@ -4,8 +4,12 @@ import imageUrlBuilder from "@sanity/image-url";
 export const client = createClient({
   projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
   dataset: "production",
-  useCdn: true,
+  useCdn: false,
   apiVersion: "2024-02-01",
+  stega: {
+    enabled: true,
+    studioUrl: "http://localhost:3333",
+  },
 });
 
 const builder = imageUrlBuilder(client);
