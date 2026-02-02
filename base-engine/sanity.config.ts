@@ -14,6 +14,9 @@ export default defineConfig({
     structureTool(),
     presentationTool({
       previewUrl: "http://localhost:5173",
+      resolve: {
+        mainDocuments: [],
+      },
     }),
   ],
 
