@@ -47,9 +47,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
-      {/* Active l'interface de clic-to-edit pour le commerçant */}
+      {/* Correction de l'erreur 2741 : ajout de la propriété portal obligatoire */}
       **
-      <VisualEditing />
+      <VisualEditing portal={true} />
       **
       <header className="flex justify-between items-center p-6 border-b sticky top-0 bg-white/80 backdrop-blur-md z-10">
         <h1 className="text-2xl font-black uppercase tracking-tighter">
