@@ -10,15 +10,27 @@ interface Product {
   image: any;
 }
 
+interface Settings {
+  siteTitle: string;
+  heroSubtitle: string;
+}
+
 export default function App() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [settings, setSettings] = useState<Settings | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const query = `{
+      "products": *[_type == "product"],
+      "settings": *[_type == "settings"][0]
+    }`;
+
     client
-      .fetch('*[_type == "product"]')
+      .fetch(query)
       .then((data) => {
-        setProducts(data);
+        setProducts(data.products || []);
+        setSettings(data.settings || null);
         setLoading(false);
       })
       .catch((error) => {
@@ -39,7 +51,7 @@ export default function App() {
     <div className="min-h-screen bg-white font-sans text-slate-900">
       <header className="flex justify-between items-center p-6 border-b sticky top-0 bg-white/80 backdrop-blur-md z-10">
         <h1 className="text-2xl font-black uppercase tracking-tighter">
-          Base Engine
+          {settings?.siteTitle || "Base Engine"}
         </h1>
         <button
           type="button"
@@ -51,6 +63,15 @@ export default function App() {
       </header>
 
       <main className="max-w-7xl mx-auto p-8">
+        <div className="mb-12 text-center">
+          <h2 className="text-4xl font-extrabold mb-2">
+            {settings?.siteTitle || "Bienvenue"}
+          </h2>
+          <p className="text-slate-500 text-lg">
+            {settings?.heroSubtitle || "Découvrez nos produits."}
+          </p>
+        </div>
+
         {products.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-slate-400 italic">Aucun produit disponible.</p>

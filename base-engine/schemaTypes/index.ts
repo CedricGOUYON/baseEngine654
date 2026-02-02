@@ -1,3 +1,4 @@
 import { productType } from "./product";
+import { settingsType } from "./settings";
 
-export const schemaTypes = [productType];
+export const schemaTypes = [productType, settingsType];
