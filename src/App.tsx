@@ -33,10 +33,7 @@ export default function App() {
         setSettings(data.settings || null);
         setLoading(false);
       })
-      .catch((error) => {
-        console.error("Sanity fetch error:", error);
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, []);
 
   if (loading) {
@@ -63,6 +60,7 @@ export default function App() {
       </header>
 
       <main className="max-w-7xl mx-auto p-8">
+        {/* Zone d'édition visuelle */}
         <div className="mb-12 text-center">
           <h2 className="text-4xl font-extrabold mb-2">
             {settings?.siteTitle || "Bienvenue"}
@@ -72,39 +70,33 @@ export default function App() {
           </p>
         </div>
 
-        {products.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-slate-400 italic">Aucun produit disponible.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {products.map((p) => (
-              <article key={p._id} className="group">
-                <div className="overflow-hidden rounded-2xl mb-4 bg-slate-100 aspect-square">
-                  {p.image && (
-                    <img
-                      src={urlFor(p.image).url()}
-                      alt={p.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                  )}
-                </div>
-                <h2 className="text-xl font-bold uppercase">{p.title}</h2>
-                <p className="text-lg font-mono mb-4">{p.price} €</p>
-                <button
-                  type="button"
-                  className="snipcart-add-item w-full py-3 bg-teal-600 text-white font-bold uppercase tracking-widest hover:bg-teal-700 transition-colors rounded-lg"
-                  data-item-id={p._id}
-                  data-item-name={p.title}
-                  data-item-price={p.price}
-                  data-item-url="/"
-                >
-                  Ajouter au panier
-                </button>
-              </article>
-            ))}
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          {products.map((p) => (
+            <article key={p._id} className="group">
+              <div className="overflow-hidden rounded-2xl mb-4 bg-slate-100 aspect-square">
+                {p.image && (
+                  <img
+                    src={urlFor(p.image).url()}
+                    alt={p.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                )}
+              </div>
+              <h2 className="text-xl font-bold uppercase">{p.title}</h2>
+              <p className="text-lg font-mono mb-4">{p.price} €</p>
+              <button
+                type="button"
+                className="snipcart-add-item w-full py-3 bg-teal-600 text-white font-bold uppercase tracking-widest rounded-lg"
+                data-item-id={p._id}
+                data-item-name={p.title}
+                data-item-price={p.price}
+                data-item-url="/"
+              >
+                Ajouter au panier
+              </button>
+            </article>
+          ))}
+        </div>
       </main>
     </div>
   );

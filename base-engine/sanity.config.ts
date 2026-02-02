@@ -1,18 +1,18 @@
-import {defineConfig} from 'sanity'
-import {structureTool} from 'sanity/structure'
-import {visionTool} from '@sanity/vision'
-import {schemaTypes} from './schemaTypes'
+import { presentationTool } from "@sanity/presentation";
+import { defineConfig } from "sanity";
+import { structureTool } from "sanity/structure";
+import { schemaTypes } from "./schemaTypes";
 
 export default defineConfig({
-  name: 'default',
-  title: 'base engine',
+  name: "default",
+  title: "Tableau de Bord Commerçant",
 
-  projectId: '0ck0brgw',
-  dataset: 'production',
+  projectId: "0ck0brgw",
+  dataset: "production",
 
-  plugins: [structureTool(), visionTool()],
+  plugins: [structureTool(), presentationTool()],
 
   schema: {
     types: schemaTypes,
   },
-})
+});
